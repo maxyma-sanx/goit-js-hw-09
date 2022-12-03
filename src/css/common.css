@@ -17,7 +17,51 @@ img {
   max-width: 100%;
 }
 
+input {
+  padding: 10px;
+  border: 2px solid #569ff7;
+  border-radius: 10px;
+  color: rgb(41, 41, 41);
+}
+
+input:disabled {
+  background-color: rgb(41, 41, 41);
+  border: 2px solid rgb(41, 41, 41);
+  color: rgb(175, 170, 170);
+}
+
+button {
+  cursor: pointer;
+  min-width: 100px;
+  padding: 10px;
+  border: 2px solid #569ff7;
+  border-radius: 10px;
+  color: rgb(41, 41, 41);
+}
+
+button:disabled {
+  background-color: rgb(41, 41, 41);
+  border: 2px solid rgb(41, 41, 41);
+  color: rgb(175, 170, 170);
+}
+
 .timer {
   display: flex;
   gap: 20px;
+  margin-top: 20px;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 100px;
+  padding: 20px;
+  border-radius: 10px;
+  background-color: rgb(31, 30, 30);
+  color: rgb(175, 170, 170);
+}
+
+.label {
+  color: rgb(34, 120, 177);
 }

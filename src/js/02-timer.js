@@ -10,8 +10,9 @@ const refs = {
   minutes: document.querySelector('[data-minutes]'),
   seconds: document.querySelector('[data-seconds]'),
 };
-let intervalID = null;
 
+let intervalID = null;
+let diffTime = null;
 refs.start.disabled = true;
 
 const options = {
@@ -35,7 +36,8 @@ const options = {
 };
 
 flatpickr(refs.input, options);
-refs.start.addEventListener('click', updateTimerValues);
+
+refs.start.addEventListener('click', onStartButtonClick);
 
 function convertMs(ms) {
   const second = 1000;
@@ -53,24 +55,36 @@ function convertMs(ms) {
   return { days, hours, minutes, seconds };
 }
 
-function updateTimerValues() {
+function addLeadingZero(value) {
+  return String(value).padStart(2, '0');
+}
+
+function onStartButtonClick() {
+  refs.input.disabled = true;
+  refs.start.disabled = true;
+
   intervalID = setInterval(() => {
-    const diffTime = new Date(refs.input.value) - new Date();
+    diffTime = new Date(refs.input.value) - new Date();
+    updateTimerValues(diffTime);
 
-    const { days, hours, minutes, seconds } = convertMs(diffTime);
-
-    refs.days.textContent = days;
-    refs.hours.textContent = hours;
-    refs.minutes.textContent = minutes;
-    refs.seconds.textContent = seconds;
-
-    if (diffTime < 0) {
+    if (Math.floor(diffTime / 1000) <= 0) {
+      Notify.success('Час вичерпано', {
+        position: 'center-center',
+        timeout: 3000,
+        backOverlay: true,
+        clickToClose: true,
+      });
       clearInterval(intervalID);
-      return;
+      refs.input.disabled = false;
     }
   }, 1000);
 }
 
-function addLeadingZero(value) {
-  return String(value).padStart(2, '0');
+function updateTimerValues(value) {
+  const { days, hours, minutes, seconds } = convertMs(value);
+
+  refs.days.textContent = days;
+  refs.hours.textContent = hours;
+  refs.minutes.textContent = minutes;
+  refs.seconds.textContent = seconds;
 }
